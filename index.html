@@ -1,0 +1,958 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Activité en autonomie de Seconde, chapitre 1 : identifier des produits saisis (corps purs et mélanges, masse volumique, changements d'état, solubilité, tests chimiques, CCM).">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;font-size:14px;font-family:system-ui,sans-serif}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>Labo des fraudes</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: sticky mission bar on top; each mission = story + "rappel" + manipulation (left) + questions (right), stacked on phones. */
+:root{
+  --paper:#F2F3F8; --card:#FFFFFF; --box:#F7F7FB; --ink:#1D2133; --muted:#5B6077; --line:#D6D9E5;
+  --accent:#62479A; --accent-ink:#FFFFFF; --accent-soft:#ECE6F6;
+  --ok:#1E7656; --ok-soft:#DDF1E8; --bad:#AE3636; --bad-soft:#F7E2E2; --warn-soft:#FBF1D9;
+  --plate:#F4F2EA; --plate-uv:#3B3F8F; --spot:#33313A;
+  --f-display:"Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --paper:#13141B; --card:#1C1E28; --box:#232634; --ink:#E7E8F1; --muted:#A3A7BC; --line:#313446;
+    --accent:#B59DE8; --accent-ink:#1A1426; --accent-soft:#2D2541;
+    --ok:#62C99F; --ok-soft:#163127; --bad:#EE8585; --bad-soft:#3B1F24; --warn-soft:#3A3120;
+    --plate:#DCD9CE; --plate-uv:#2C2F78; --spot:#2C2A33;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#13141B; --card:#1C1E28; --box:#232634; --ink:#E7E8F1; --muted:#A3A7BC; --line:#313446;
+  --accent:#B59DE8; --accent-ink:#1A1426; --accent-soft:#2D2541;
+  --ok:#62C99F; --ok-soft:#163127; --bad:#EE8585; --bad-soft:#3B1F24; --warn-soft:#3A3120;
+  --plate:#DCD9CE; --plate-uv:#2C2F78; --spot:#2C2A33;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--card)}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.15;margin:0}
+h1{font-size:clamp(1.9rem,4.5vw,2.8rem);font-weight:800;letter-spacing:-.01em}
+h2{font-size:clamp(1.5rem,3vw,2rem);font-weight:800}
+h3{font-size:1.1rem;font-weight:600}
+p{margin:0}
+.mono{font-family:var(--f-mono)}
+.eyebrow{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+button{font:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* top bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--card);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;gap:14px;padding-block:10px}
+.brand{font-family:var(--f-display);font-weight:800;font-size:1.05rem;white-space:nowrap}
+.tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:thin;flex:1;padding-block:2px}
+.tab{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 12px;font-size:.88rem;white-space:nowrap;display:flex;gap:8px;align-items:center}
+.tab .n{font-family:var(--f-mono);font-size:.75rem;color:var(--muted)}
+.tab[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.tab[aria-selected="true"] .n{color:var(--accent-ink)}
+.tab.done:not([aria-selected="true"]){border-color:var(--ok);color:var(--ok)}
+
+/* intro */
+.intro{padding-block:36px 8px;display:grid;gap:14px}
+.intro p.lead{font-size:1.12rem;max-width:62ch}
+.howto{display:flex;flex-wrap:wrap;gap:8px 20px;color:var(--muted);font-size:.92rem}
+.howto b{color:var(--ink)}
+
+/* mission */
+.mission{padding-block:24px 56px;display:grid;gap:20px}
+.mhead{display:grid;gap:8px}
+.story{max-width:66ch;font-size:1.04rem}
+details.rappel{background:var(--accent-soft);border-radius:10px;padding:10px 16px;max-width:780px}
+details.rappel summary{font-weight:700;cursor:pointer}
+details.rappel .rc{display:grid;gap:8px;padding-block:10px 4px}
+.formula{font-family:var(--f-mono);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 10px;display:inline-block}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:860px){.grid2{grid-template-columns:minmax(0,1fr)}}
+.sim{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:12px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 70px)}
+@media (max-width:860px){.sim{position:static}}
+.sim h3{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.sim h3 small{font-family:var(--f-mono);font-weight:400;font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.controls{display:flex;flex-wrap:wrap;gap:8px}
+.btn{border:1px solid var(--accent);background:var(--card);color:var(--accent);border-radius:8px;padding:7px 12px;font-weight:700;font-size:.92rem}
+.btn:hover{background:var(--accent-soft)}
+.btn.primary{background:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.note{font-size:.88rem;color:var(--muted)}
+.log{font-family:var(--f-mono);font-size:.82rem;background:var(--box);border-radius:8px;padding:8px 10px;min-height:2.2em}
+svg text{font-family:var(--f-mono)}
+.tbl-wrap{overflow-x:auto}
+table.data{border-collapse:collapse;font-size:.88rem;width:100%;font-variant-numeric:tabular-nums}
+table.data th,table.data td{border-bottom:1px solid var(--line);padding:5px 8px;text-align:left}
+table.data th{font-family:var(--f-mono);font-size:.74rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:400}
+
+/* questions */
+.qs{display:grid;gap:14px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:10px}
+.q.ok{border-color:var(--ok)}
+.q.ko{border-color:var(--bad)}
+.qtop{display:flex;gap:10px;align-items:baseline}
+.qnum{font-family:var(--f-mono);font-size:.75rem;color:var(--accent);flex:none}
+.qtext{font-weight:700}
+.opts{display:flex;flex-wrap:wrap;gap:6px}
+.opt{border:1px solid var(--line);background:var(--box);color:var(--ink);border-radius:8px;padding:7px 11px;text-align:left;font-size:.94rem}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt.wrong{background:var(--bad-soft);border-color:var(--bad);text-decoration:line-through}
+.opt.right{background:var(--ok-soft);border-color:var(--ok);font-weight:700}
+.opt:disabled{cursor:default}
+.multi label{display:flex;gap:6px;align-items:center;border:1px solid var(--line);background:var(--box);border-radius:8px;padding:6px 10px;cursor:pointer}
+.numrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.numrow input{font:inherit;font-family:var(--f-mono);width:9em;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--box);color:var(--ink)}
+.fb{font-size:.92rem;border-radius:8px;padding:8px 10px}
+.fb.ok{background:var(--ok-soft)}
+.fb.ko{background:var(--bad-soft)}
+.fb.try{background:var(--warn-soft)}
+.fb b.tag{font-family:var(--f-mono);font-size:.76rem;text-transform:uppercase;letter-spacing:.06em}
+.next{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;border-top:1px solid var(--line);padding-top:16px}
+
+/* mission 1 */
+.boxes{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.mbox{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;display:grid;gap:8px}
+.mbox svg{width:100%;height:auto;background:var(--box);border-radius:8px;display:block}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.84rem;color:var(--muted)}
+.legend span{display:inline-flex;gap:5px;align-items:center}
+.legend i{width:11px;height:11px;border-radius:50%;display:inline-block;border:1px solid rgba(0,0,0,.25)}
+
+/* states canvas */
+canvas#part{width:100%;height:auto;background:var(--box);border-radius:8px;display:block}
+.statebadge{font-family:var(--f-display);font-weight:800;font-size:1.4rem}
+input[type=range]{width:100%;accent-color:var(--accent)}
+select{font:inherit;padding:6px 8px;border-radius:8px;border:1px solid var(--line);background:var(--box);color:var(--ink)}
+
+/* bilan */
+.bilan{display:grid;gap:18px}
+.idrow{display:flex;flex-wrap:wrap;gap:12px}
+.idrow label{display:grid;gap:4px;font-size:.88rem;color:var(--muted)}
+.idrow input{font:inherit;padding:7px 10px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);width:14em;max-width:100%}
+.score-big{font-family:var(--f-display);font-weight:800;font-size:3rem;line-height:1}
+.meter{height:8px;background:var(--line);border-radius:4px;overflow:hidden;min-width:80px}
+.meter i{display:block;height:100%;background:var(--accent)}
+.pill{font-family:var(--f-mono);font-size:.74rem;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.ko{background:var(--bad-soft);color:var(--bad)}
+.pill.todo{background:var(--box);color:var(--muted)}
+.capture{background:var(--card);border:2px dashed var(--accent);border-radius:14px;padding:18px;display:grid;gap:14px}
+.write{display:grid;gap:8px}
+.write ul{margin:0;padding-left:1.2em;color:var(--muted);font-size:.92rem;display:grid;gap:2px}
+.write textarea{font:inherit;line-height:1.6;width:100%;min-height:12em;resize:vertical;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--box);color:var(--ink);overflow:hidden}
+.wc-ok{color:var(--ok)}
+.mbilan{border:2px solid var(--accent);border-radius:14px;background:var(--card);padding:18px 20px;display:grid;gap:12px;max-width:860px}
+.mbilan.locked{border-style:dashed;border-width:1px;border-color:var(--line);background:transparent;color:var(--muted);padding:12px 16px}
+.mbilan h3{font-size:1.3rem;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.mbilan h3 .eyebrow{font-size:.72rem}
+.mbilan ul{margin:0;padding-left:1.2em;display:grid;gap:6px}
+.mbilan .copy-hint{font-size:.86rem;color:var(--muted);border-top:1px solid var(--line);padding-top:10px}
+.key{background:var(--accent-soft);border-radius:4px;padding:0 4px;font-weight:700}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <span class="brand">Labo des fraudes</span>
+    <nav class="tabs" id="tabs" role="tablist" aria-label="Missions"></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="intro" id="intro">
+    <span class="eyebrow">Seconde · Chapitre 1 · Identification des espèces chimiques</span>
+    <h1>Stage au laboratoire de la répression des fraudes</h1>
+    <p class="lead">Tu es stagiaire dans un laboratoire d'analyse. Des produits suspects ont été saisis : une « eau déminéralisée » qui n'en est peut-être pas, un « sucre glace » douteux, une huile vendue comme lavande fine… À toi de les identifier avec les méthodes du cours.</p>
+    <div class="howto">
+      <span><b>6 missions</b> dans l'ordre, ≈ 55 min</span>
+      <span><b>2 essais</b> par question, avec un indice après une erreur</span>
+      <span>Une réponse validée est <b>définitive</b> : réfléchis avant de cliquer</span>
+      <span>À la fin : un <b>texte</b> pour expliquer ce que tu as compris</span>
+    </div>
+  </section>
+  <div id="missions"></div>
+</main>
+
+<script>
+(() => {
+"use strict";
+const KEY = "labo-fraudes-v1";
+let S = { a:{}, cur:"m1", id:{nom:"",prenom:"",classe:""} };
+try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(S, JSON.parse(raw)); } catch(e) {}
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e) {} }
+const $ = (s, r=document) => r.querySelector(s);
+const h = (tag, attrs={}, html="") => { const e=document.createElement(tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (html) e.innerHTML=html; return e; };
+const fmt = (x) => String(x).replace(".", ",");
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---------- Missions ---------- */
+const MISSIONS = [
+ { id:"m1", short:"Tri des saisies", title:"Trier les saisies : corps purs ou mélanges ?", time:"≈ 8 min",
+   story:"Six échantillons arrivent au labo. Le microscope « magique » du labo montre les <b>entités chimiques</b> qu'ils contiennent. Classe chaque échantillon.",
+   rappel:`<p>Une <b>espèce chimique</b> est un ensemble d'<b>entités chimiques</b> identiques (molécules, atomes, ions).</p>
+   <p><b>Corps pur simple</b> : un seul type d'atomes (O₂, Fe, Cu). <b>Corps pur composé</b> : plusieurs types d'atomes, toujours dans les mêmes proportions (H₂O, CO₂, NaCl).</p>
+   <p><b>Mélange homogène</b> : plusieurs espèces, une seule phase, aspect uniforme. <b>Mélange hétérogène</b> : plusieurs phases visibles.</p>` },
+ { id:"m2", short:"Masse volumique", title:"Le flacon X : mesurer une masse volumique", time:"≈ 10 min",
+   story:"Le flacon X est étiqueté « eau déminéralisée », mais il sent bizarre. Avec la balance et l'éprouvette graduée, mesure sa <b>masse volumique</b> pour savoir ce qu'il contient vraiment. Ensuite, mesure celle du <b>mercure</b> saisi dans un vieux thermomètre et compare-la à celle de l'eau.",
+   rappel:`<p><span class="formula">ρ = m / V</span> avec ρ en g·L⁻¹, m en g, V en L.</p>
+   <p><span class="formula">d = ρ(corps) / ρ(eau)</span> : la densité n'a pas d'unité. ρ(eau liquide) = 1000 g·L⁻¹.</p>
+   <p>Rappel : 1 mL = 0,001 L. Deux liquides non miscibles : le moins dense se place au-dessus.</p>` },
+ { id:"m3", short:"Changements d'état", title:"Températures de changement d'état", time:"≈ 10 min",
+   story:"Une propriété ne suffit pas : il faut <b>plusieurs propriétés concordantes</b>. On chauffe le flacon X et un flacon Y étiqueté « vodka ». Avant, révise les états physiques avec le thermomètre.",
+   rappel:`<p>Fusion : solide → liquide, à θ<sub>f</sub>. Ébullition : liquide → gaz, à θ<sub>éb</sub>. Liquéfaction (condensation liquide) : gaz → liquide.</p>
+   <p>Si θ &lt; θ<sub>f</sub> : solide. Si θ<sub>f</sub> &lt; θ &lt; θ<sub>éb</sub> : liquide. Si θ &gt; θ<sub>éb</sub> : gaz.</p>
+   <p>Le <b>diagramme d'état</b> (pression en fonction de la température) montre trois zones : solide, liquide, gaz. Traverser une courbe = changer d'état. Les températures de changement d'état dépendent de la pression.</p>
+   <p>Un <b>corps pur</b> change d'état à température constante (palier). L'<b>évaporation</b> se fait en surface, à toute température ; l'<b>ébullition</b> concerne tout le liquide, à une température donnée.</p>` },
+ { id:"m4", short:"Solubilité", title:"Solubilité : jusqu'où peut-on dissoudre ?", time:"≈ 7 min",
+   story:"Pour préparer une saumure de contrôle, on dissout du sel (chlorure de sodium) dans 100 mL d'eau à 20 °C. Ajoute le sel cuillère par cuillère et observe.",
+   rappel:`<p>La <b>solubilité</b> s (en g·L⁻¹) est la masse maximale d'une espèce que l'on peut dissoudre dans 1 L de solution. Elle dépend de la <b>température</b> et du <b>solvant</b>.</p>
+   <p>s(NaCl) = 360 g·L⁻¹ à 20 °C. Acide benzoïque à 25 °C : 2,4 g·L⁻¹ dans l'eau, 43 g·L⁻¹ dans l'éthanol. CuSO₄ : 317 g·L⁻¹ à 25 °C, 2 033 g·L⁻¹ à 100 °C.</p>
+   <p>Quand on ne peut plus dissoudre, la solution est <b>saturée</b> : le solide en trop reste au fond.</p>` },
+ { id:"m5", short:"Tests chimiques", title:"Le « sucre glace » suspect : tests chimiques", time:"≈ 8 min",
+   story:"Une poudre blanche vendue comme « sucre glace » a été saisie. Au contact de l'eau, elle devient bleue ! On la dissout et on répartit la solution dans plusieurs tubes. Réalise les tests.",
+   rappel:`<p>Un <b>test chimique</b> utilise un <b>réactif</b> pour mettre en évidence la présence d'une espèce. Un <b>précipité</b> est un solide qui apparaît dans la solution.</p>
+   <p>Un test négatif ne prouve pas toujours l'absence : l'espèce peut être présente en trop petite quantité pour être détectée.</p>` },
+ { id:"m6", short:"CCM lavande", title:"Lavande fine ou lavandin ? La chromatographie", time:"≈ 12 min",
+   story:"Un flacon (dépôt 7) est vendu « 100 % lavande fine », rare et chère. Le lavandin, lui, est très cultivé et peu cher. On compare par <b>CCM</b> avec des espèces de référence. D'après l'exercice 33.",
+   rappel:`<p>La CCM <b>compare</b> un produit à des références. L'<b>éluant</b> monte par capillarité ; le <b>front de l'éluant</b> marque sa hauteur maximale.</p>
+   <p>Deux taches à la même hauteur (même éluant) : même espèce. Plusieurs taches pour un dépôt : c'est un mélange.</p>
+   <p>Espèces incolores : on <b>révèle</b> les taches (lampe UV, diiode, permanganate…).</p>` },
+];
+
+/* ---------- Questions ---------- */
+const OPT4 = ["Corps pur simple","Corps pur composé","Mélange homogène","Mélange hétérogène"];
+const Q = {
+ m1: [
+  {id:"m1a", box:"A", type:"choice", text:"Échantillon A : fil de cuivre", options:OPT4, answer:0, hint:"Combien de sortes d'atomes vois-tu ?", explain:"Un seul type d'atome (Cu) : corps pur simple."},
+  {id:"m1b", box:"B", type:"choice", text:"Échantillon B : eau déminéralisée", options:OPT4, answer:1, hint:"Toutes les molécules sont-elles identiques ? Combien de types d'atomes dans chacune ?", explain:"Une seule espèce (H₂O) faite de deux types d'atomes : corps pur composé."},
+  {id:"m1c", box:"C", type:"choice", text:"Échantillon C : dioxygène d'une bouteille", options:OPT4, answer:0, hint:"Regarde les deux atomes de chaque molécule.", explain:"Molécules O₂ toutes identiques, un seul type d'atome : corps pur simple."},
+  {id:"m1d", box:"D", type:"choice", text:"Échantillon D : air du laboratoire", options:OPT4, answer:2, hint:"Y a-t-il plusieurs sortes de molécules ? Voit-on des phases séparées ?", explain:"N₂ et O₂ mélangés en une seule phase : mélange homogène."},
+  {id:"m1e", box:"E", type:"choice", text:"Échantillon E : eau salée", options:OPT4, answer:2, hint:"Les ions sont-ils répartis partout ou regroupés à part ?", explain:"Eau + ions Na⁺ et Cl⁻ dispersés dans une seule phase : mélange homogène."},
+  {id:"m1f", box:"F", type:"choice", text:"Échantillon F : eau + huile laissées au repos", options:OPT4, answer:3, hint:"Observe la ligne qui sépare le haut et le bas.", explain:"Deux phases séparées : mélange hétérogène."},
+  {id:"m1g", type:"choice", text:"Quelle phrase est juste ?", options:["Une entité chimique est un ensemble d'espèces chimiques","Une espèce chimique est un ensemble d'entités chimiques identiques","Entité et espèce, c'est pareil"], answer:1, hint:"Une molécule d'eau, c'est une entité. L'eau d'un verre, c'est…", explain:"Une molécule H₂O est une entité ; l'eau (des milliards de molécules H₂O identiques) est une espèce chimique."},
+  {id:"m1h", type:"choice", text:"L'eau minérale est limpide. Pourquoi est-ce pourtant un mélange ?", options:["Parce qu'elle contient des sels minéraux dissous","Parce qu'elle contient des molécules H₂O","Parce qu'elle est liquide"], answer:0, hint:"Lis l'étiquette d'une bouteille d'eau minérale.", explain:"Elle contient de l'eau et des ions dissous (calcium, magnésium…) : c'est un mélange homogène, même si l'aspect est uniforme."},
+ ],
+ m2: [
+  {id:"m2a", type:"num", text:"Masse de liquide X versée dans l'éprouvette ?", unit:"g", answer:39.5, tol:0.15, hint:"Si tu n'as pas taré, retire la masse de l'éprouvette vide.", explain:"m = 131,9 − 92,4 = 39,5 g (ou lecture directe après la tare)."},
+  {id:"m2b", type:"num", text:"Volume V de liquide X, exprimé en litres ?", unit:"L", answer:0.05, tol:0.0005, hint:"50,0 mL = ? L. Divise par 1000.", explain:"V = 50,0 mL = 0,0500 L."},
+  {id:"m2c", type:"num", text:"Calcule la masse volumique ρ du liquide X.", unit:"g·L⁻¹", answer:790, tol:12, hint:"ρ = m / V avec m en g et V en L.", explain:"ρ = 39,5 / 0,0500 = 790 g·L⁻¹."},
+  {id:"m2d", type:"choice", text:"D'après le tableau, le liquide X est probablement…", options:["de l'eau","de l'éthanol","de l'huile de tournesol","du glycérol"], answer:1, hint:"Compare ta valeur aux valeurs du tableau.", explain:"790 g·L⁻¹ est très proche de 789 g·L⁻¹ : éthanol. Ce n'est pas de l'eau déminéralisée !"},
+  {id:"m2e", type:"num", text:"Calcule la densité d du liquide X.", unit:"(sans unité)", answer:0.79, tol:0.012, hint:"d = ρ(X) / ρ(eau) avec ρ(eau) = 1000 g·L⁻¹.", explain:"d = 790 / 1000 = 0,79."},
+  {id:"m2h", type:"num", text:"Retire tout, puis mesure la masse de 10,0 mL de mercure. Calcule sa masse volumique ρ(mercure).", unit:"g·L⁻¹", answer:13530, tol:150, hint:"Lis la masse de mercure seul (tare ou soustraction), puis V = 10,0 mL = 0,0100 L.", explain:"m = 135,3 g ; ρ = 135,3 / 0,0100 = 13 530 g·L⁻¹."},
+  {id:"m2i", type:"num", text:"Calcule la densité d du mercure.", unit:"(sans unité)", answer:13.53, tol:0.15, hint:"d = ρ(mercure) / ρ(eau) avec ρ(eau) = 1000 g·L⁻¹.", explain:"d = 13 530 / 1000 ≈ 13,5."},
+  {id:"m2j", type:"choice", text:"Compare avec l'eau : pour un même volume, le mercure est…", options:["environ 13,5 fois plus lourd que l'eau","environ 13,5 fois plus léger que l'eau","aussi lourd que l'eau"], answer:0, hint:"Que signifie une densité de 13,5 ?", explain:"d ≈ 13,5 : 1 L de mercure a une masse d'environ 13,5 kg, contre 1 kg pour 1 L d'eau. Tes 10 mL de mercure pèsent plus de trois fois les 39,5 g de 50 mL de liquide X !"},
+  {id:"m2k", type:"choice", text:"On pose un boulon en fer (ρ = 7 870 g·L⁻¹) sur du mercure liquide. Il…", options:["flotte","coule"], answer:0, hint:"Compare la masse volumique du fer à celle du mercure.", explain:"7 870 < 13 530 : le fer est moins dense que le mercure, il flotte (alors qu'il coule dans l'eau)."},
+  {id:"m2f", type:"choice", text:"On verse de l'huile de tournesol sur de l'eau (non miscibles). Que voit-on ?", options:["L'huile au-dessus","L'eau au-dessus","Un mélange homogène"], answer:0, hint:"Le liquide le moins dense se place…", explain:"ρ(huile) = 920 g·L⁻¹ < ρ(eau) = 1000 g·L⁻¹ : l'huile flotte. Mélange hétérogène."},
+  {id:"m2g", type:"choice", text:"Un glaçon flotte-t-il dans l'eau liquide ? (ρ(eau solide) = 917 g·L⁻¹ à 0 °C)", options:["Oui","Non","Ça dépend de sa taille"], answer:0, hint:"Compare 917 et 1000.", explain:"917 < 1000 : la glace est moins dense que l'eau liquide, elle flotte, quelle que soit sa taille."},
+ ],
+ m3: [
+  {id:"m3a", type:"choice", text:"État du cyclohexane à 0 °C ?", options:["Solide","Liquide","Gaz"], answer:0, hint:"Compare 0 °C à θf = 6,5 °C.", explain:"0 °C < θf = 6,5 °C : solide."},
+  {id:"m3b", type:"choice", text:"État du mercure à 20 °C ?", options:["Solide","Liquide","Gaz"], answer:1, hint:"θf = −39 °C et θéb = 357 °C.", explain:"−39 °C < 20 °C < 357 °C : liquide (le seul métal liquide à température ambiante)."},
+  {id:"m3c", type:"choice", text:"État du méthane à 20 °C ?", options:["Solide","Liquide","Gaz"], answer:2, hint:"θéb = −161,5 °C.", explain:"20 °C > θéb = −161,5 °C : gaz."},
+  {id:"m3d", type:"choice", text:"État du sel (NaCl) à 1000 °C ?", options:["Solide","Liquide","Gaz"], answer:1, hint:"θf = 801 °C et θéb = 1465 °C.", explain:"801 °C < 1000 °C < 1465 °C : liquide (sel fondu)."},
+  {id:"m3e", type:"num", text:"Chauffe le flacon X. Lis sa température d'ébullition sur la courbe.", unit:"°C", answer:79, tol:2, hint:"Cherche la partie horizontale de la courbe X.", explain:"Le palier est à 79 °C."},
+  {id:"m3f", type:"choice", text:"Le flacon X est…", options:["un corps pur, car on observe un palier","un mélange, car on observe un palier","un corps pur, car la température monte"], answer:0, hint:"Que fait la température d'un corps pur pendant un changement d'état ?", explain:"Palier = température constante pendant l'ébullition : corps pur."},
+  {id:"m3g", type:"choice", text:"Chauffe le flacon Y (« vodka »). C'est…", options:["un corps pur","un mélange"], answer:1, hint:"Y a-t-il un palier net ?", explain:"Pas de palier : la température monte pendant l'ébullition. C'est un mélange (eau + éthanol)."},
+  {id:"m3h", type:"choice", text:"θéb(éthanol) = 79 °C dans les tables. Que conclure pour X ?", options:["Deux propriétés concordantes (ρ et θéb) : X est bien de l'éthanol","On ne peut rien conclure","X est de l'eau, car il bout"], answer:0, hint:"Repense à ta mesure de la mission 2.", explain:"Masse volumique ET température d'ébullition concordent : on peut identifier X comme de l'éthanol."},
+  {id:"m3i", type:"choice", text:"Une flaque d'eau disparaît en une journée à 20 °C. C'est…", options:["une ébullition","une évaporation","une fusion"], answer:1, hint:"L'eau n'est pas à 100 °C…", explain:"Évaporation : en surface, à n'importe quelle température. L'ébullition, elle, se fait à θéb dans tout le liquide."},
+  {id:"m3j", pd:true, type:"choice", text:"Sur le diagramme, on chauffe : on traverse la courbe de fusion de la gauche vers la droite. Ce changement d'état s'appelle…", options:["la fusion","la solidification","la sublimation"], answer:0, hint:"On passe de quelle zone à quelle zone ?", explain:"On passe de la zone SOLIDE à la zone LIQUIDE : c'est la fusion. Dans l'autre sens, c'est la solidification."},
+  {id:"m3k", pd:true, type:"choice", text:"Quel changement d'état fait passer directement du solide au gaz ?", options:["la vaporisation","la sublimation","la liquéfaction"], answer:1, hint:"Clique sur les boutons sous le diagramme pour voir chaque flèche.", explain:"La sublimation (solide → gaz), en traversant la courbe de sublimation. L'inverse est la condensation solide."},
+  {id:"m3l", pd:true, type:"choice", text:"État de l'eau à 100 °C sous 15 bar (bien plus que la pression atmosphérique) ?", options:["Solide","Liquide","Gaz"], answer:1, hint:"Place le point sur la verticale de 100 °C, mais au-dessus de la ligne de la pression atmosphérique.", explain:"Au-dessus de la ligne pointillée, la verticale de 100 °C est à gauche de la courbe de vaporisation : l'eau est liquide. C'est le principe de l'autocuiseur : sous forte pression, l'eau bout au-dessus de 100 °C."},
+  {id:"m3m", pd:true, type:"choice", text:"En haute montagne, la pression est plus faible qu'au niveau de la mer. L'eau y bout…", options:["à moins de 100 °C","à 100 °C","à plus de 100 °C"], answer:0, hint:"Descends la ligne horizontale : où croise-t-elle la courbe de vaporisation ?", explain:"À pression plus faible, la courbe de vaporisation est croisée plus à gauche : l'eau bout à moins de 100 °C (environ 85 °C au sommet du mont Blanc). La température d'ébullition dépend de la pression."},
+ ],
+ m4: [
+  {id:"m4a", type:"num", text:"Masse maximale de NaCl qu'on peut dissoudre dans V = 100 mL d'eau à 20 °C ?", unit:"g", answer:36, tol:0.5, hint:"m max = s × V, avec V en L (100 mL = 0,100 L).", explain:"m max = 360 × 0,100 = 36 g."},
+  {id:"m4b", type:"choice", text:"On met 50 g de sel dans 100 mL d'eau. La solution est…", options:["saturée","non saturée"], answer:0, hint:"Compare 50 g à la masse maximale.", explain:"50 g > 36 g : saturée, il reste du sel au fond."},
+  {id:"m4c", type:"num", text:"Quelle masse de sel reste alors au fond, non dissoute ?", unit:"g", answer:14, tol:0.5, hint:"Masse ajoutée − masse dissoute.", explain:"50 − 36 = 14 g."},
+  {id:"m4d", type:"choice", text:"Pour dissoudre 2 g d'acide benzoïque dans 100 mL, quel solvant choisir ?", options:["L'eau","L'éthanol","Les deux conviennent"], answer:1, hint:"Calcule la masse max dans 0,100 L pour chaque solvant.", explain:"Eau : 2,4 × 0,1 = 0,24 g max. Éthanol : 43 × 0,1 = 4,3 g max. Seul l'éthanol convient."},
+  {id:"m4e", type:"choice", text:"On dissout 2 000 g de CuSO₄ dans 1 L d'eau à 100 °C, puis on refroidit à 25 °C. Que se passe-t-il ?", options:["Rien, tout reste dissous","Des cristaux apparaissent","L'eau s'évapore"], answer:1, hint:"La solubilité à 25 °C n'est que de 317 g·L⁻¹.", explain:"À 25 °C on ne peut dissoudre que 317 g : le reste (≈ 1 683 g) cristallise. La solubilité dépend de la température."},
+ ],
+ m5: [
+  {id:"m5a", type:"multi", text:"Quels ions sont présents dans la poudre ? (plusieurs réponses)", options:["Cl⁻","Cu²⁺","Ca²⁺","Fe²⁺","Fe³⁺","SO₄²⁻","Na⁺","K⁺"], answer:[1,5], hint:"Seuls les tests positifs permettent d'affirmer une présence.", explain:"Soude → précipité bleu : Cu²⁺. Chlorure de baryum → précipité blanc : SO₄²⁻."},
+  {id:"m5b", type:"choice", text:"La poudre est donc du…", options:["chlorure de potassium","sulfate de cuivre","sulfate de fer","sucre"], answer:1, hint:"Assemble les deux ions trouvés.", explain:"Cu²⁺ + SO₄²⁻ : sulfate de cuivre (anhydre, blanc). Toxique : ce n'est pas du sucre !"},
+  {id:"m5c", type:"choice", text:"La poudre blanche devient bleue au contact de l'eau. Le sulfate de cuivre anhydre sert donc à tester…", options:["la présence d'eau","la présence de sucre","la présence de sel"], answer:0, hint:"Que s'est-il passé quand on a ajouté de l'eau ?", explain:"C'est un test classique : le sulfate de cuivre anhydre bleuit en présence d'eau."},
+  {id:"m5d", type:"choice", text:"Un précipité, c'est…", options:["un solide qui apparaît dans la solution","un gaz qui se dégage","un changement de couleur de la flamme"], answer:0, hint:"Regarde le fond des tubes positifs.", explain:"Un précipité est un solide formé dans la solution."},
+  {id:"m5e", type:"choice", text:"Le test au nitrate d'argent est négatif. Peut-on affirmer qu'il n'y a absolument aucun ion Cl⁻ ?", options:["Oui, le test est formel","Non, il peut y en avoir trop peu pour être détecté"], answer:1, hint:"Relis le rappel du cours.", explain:"Un test négatif peut cacher une quantité trop faible pour être détectée."},
+ ],
+ m6: [
+  {id:"m6a", type:"choice", text:"Révélation chimique : de bas en haut, les 3 taches du dépôt 5 sont…", options:["linalol, acétate de linalyle, cinéole","cinéole, acétate de linalyle, linalol","ocimène, linalol, cinéole"], answer:0, hint:"Compare la hauteur de chaque tache du dépôt 5 à celles des dépôts 1, 2, 3.", explain:"Même hauteur que les références : linalol (2) en bas, acétate de linalyle (1) au milieu, cinéole (3) en haut."},
+  {id:"m6b", type:"choice", text:"Quelle espèce n'est pas révélée par la méthode chimique ?", options:["Le linalol","Le cinéole","L'ocimène","L'acétate de linalyle"], answer:2, hint:"Quel dépôt de référence ne montre aucune tache ?", explain:"Le dépôt 4 (ocimène) ne montre aucune tache : ce révélateur ne fait pas apparaître l'ocimène."},
+  {id:"m6c", type:"choice", text:"Avec la révélation chimique, peut-on distinguer lavande fine (5) et lavandin (6) ?", options:["Oui","Non, les deux chromatogrammes se ressemblent"], answer:1, hint:"Compare les colonnes 5 et 6.", explain:"Mêmes taches, mêmes hauteurs : impossible de les distinguer ainsi."},
+  {id:"m6d", type:"choice", text:"Sous UV, pourquoi la tache d'ocimène est-elle bien plus marquée pour 5 que pour 6 ?", options:["La lavande fine contient beaucoup plus d'ocimène (16 % contre moins de 1 %)","Le dépôt 5 a été fait plus haut","L'ocimène n'existe que dans le lavandin"], answer:0, hint:"Regarde le tableau des pourcentages massiques.", explain:"16 % d'ocimène dans la lavande fine, moins de 1 % dans le lavandin : la tache est intense pour 5, à peine visible pour 6."},
+  {id:"m6e", type:"choice", text:"Le flacon saisi (dépôt 7) est-il vraiment de la lavande fine ?", options:["Oui","Non, c'est du lavandin : il y a fraude"], answer:1, hint:"Sous UV, le dépôt 7 ressemble-t-il plutôt à 5 ou à 6 ?", explain:"Sous UV, sa tache d'ocimène est très faible, comme le lavandin (6). C'est une fraude."},
+  {id:"m6f", type:"choice", text:"Deux taches à la même hauteur (même plaque, même éluant) indiquent…", options:["la même espèce chimique","deux espèces différentes","la même quantité de matière"], answer:0, hint:"Relis le rappel.", explain:"Même hauteur dans les mêmes conditions d'élution : même espèce chimique."},
+  {id:"m6g", type:"choice", text:"Pourquoi les inspecteurs croisent-ils plusieurs méthodes ?", options:["Une méthode seule peut ne pas révéler une espèce : il faut des résultats concordants","Pour que l'analyse dure plus longtemps","Parce que la CCM ne marche jamais"], answer:0, hint:"Pense à la révélation chimique qui « ratait » l'ocimène.", explain:"Ici, seule la lampe UV permettait de conclure. Croiser les méthodes évite les erreurs."},
+ ],
+};
+const ALLQ = {}; for (const m in Q) Q[m].forEach(q => { q.m = m; ALLQ[q.id] = q; });
+
+/* ---------- Question engine ---------- */
+function st(id){ return S.a[id] || (S.a[id] = {tries:0, wrong:[], done:false, ok:false, score:0}); }
+function answerText(q){
+  if (q.type==="num") return fmt(q.answer) + " " + (q.unit.startsWith("(")?"":q.unit);
+  if (q.type==="multi") return q.answer.map(i=>q.options[i]).join(" et ");
+  return q.options[q.answer];
+}
+function renderQ(q, idx){
+  const s = st(q.id);
+  const el = h("div", {class:"q"+(s.done?(s.ok?" ok":" ko"):""), id:"q-"+q.id});
+  el.appendChild(h("div",{class:"qtop"},`<span class="qnum">Q${idx+1}</span><span class="qtext">${q.text}</span>`));
+  if (q.type==="choice"){
+    const box = h("div",{class:"opts"});
+    q.options.forEach((o,i)=>{
+      const b = h("button",{class:"opt",type:"button"},o);
+      if (s.wrong.includes(i)) b.classList.add("wrong");
+      if (s.done && i===q.answer) b.classList.add("right");
+      if (s.done || s.wrong.includes(i)) b.disabled = true;
+      b.addEventListener("click",()=>attempt(q, i===q.answer, i));
+      box.appendChild(b);
+    });
+    el.appendChild(box);
+  } else if (q.type==="multi"){
+    const box = h("div",{class:"opts multi"});
+    q.options.forEach((o,i)=>{
+      const lab = h("label",{}, `<input type="checkbox" id="${q.id}-c${i}" value="${i}" ${s.done?"disabled":""} ${s.done&&q.answer.includes(i)?"checked":""}> ${o}`);
+      box.appendChild(lab);
+    });
+    el.appendChild(box);
+    if (!s.done){
+      const b = h("button",{class:"btn primary",type:"button"},"Valider");
+      b.addEventListener("click",()=>{
+        const sel=[...box.querySelectorAll("input:checked")].map(x=>+x.value).sort();
+        if(!sel.length){ showTmp(el,"Coche au moins une case."); return; }
+        const ok = sel.length===q.answer.length && sel.every((v,i)=>v===[...q.answer].sort()[i]);
+        attempt(q, ok, sel.join("-"));
+      });
+      el.appendChild(h("div",{class:"controls"})).appendChild(b);
+    }
+  } else {
+    const row = h("div",{class:"numrow"});
+    const inp = h("input",{type:"text",inputmode:"decimal",id:"in-"+q.id,"aria-label":"Ta réponse",placeholder:"ta valeur"});
+    if (s.done) { inp.value = s.given ?? ""; inp.disabled = true; }
+    row.appendChild(inp);
+    row.appendChild(h("span",{class:"mono"},q.unit));
+    if (!s.done){
+      const b = h("button",{class:"btn primary",type:"button"},"Valider");
+      const go = ()=>{
+        const v = parseFloat(inp.value.replace(/\s/g,"").replace(",","."));
+        if (isNaN(v)) { showTmp(el,"Écris un nombre (la virgule est acceptée)."); return; }
+        attempt(q, Math.abs(v-q.answer) <= q.tol + 1e-9, inp.value.trim());
+      };
+      b.addEventListener("click",go);
+      inp.addEventListener("keydown",e=>{ if(e.key==="Enter") go(); });
+      row.appendChild(b);
+    }
+    el.appendChild(row);
+  }
+  const fb = h("div",{class:"fb-slot"});
+  if (s.done && s.ok) fb.appendChild(h("div",{class:"fb ok"},`<b class="tag">${s.score===1?"Exact du premier coup":"Exact au 2ᵉ essai"}</b><br>${q.explain}`));
+  else if (s.done) fb.appendChild(h("div",{class:"fb ko"},`<b class="tag">Réponse attendue : ${answerText(q)}</b><br>${q.explain}`));
+  else if (s.tries===1) fb.appendChild(h("div",{class:"fb try"},`<b class="tag">Pas tout à fait · encore un essai</b><br>Indice : ${q.hint}`));
+  el.appendChild(fb);
+  return el;
+}
+function showTmp(el,msg){ const slot=el.querySelector(".fb-slot"); slot.innerHTML=""; slot.appendChild(h("div",{class:"fb try"},msg)); }
+function attempt(q, ok, given){
+  const s = st(q.id); if (s.done) return;
+  s.given = given;
+  if (ok){ s.done=true; s.ok=true; s.score = s.tries===0 ? 1 : 0.5; }
+  else { s.tries++; if (q.type==="choice") s.wrong.push(given); if (s.tries>=2){ s.done=true; s.ok=false; s.score=0; } }
+  save();
+  const old = document.getElementById("q-"+q.id);
+  old.replaceWith(renderQ(q, Q[q.m].indexOf(q)));
+  updateTabs();
+  if (q.m==="m2" && q.id==="m2f" && s.done) drawDecant();
+}
+function mStats(m){
+  const qs = Q[m]; let done=0, pts=0;
+  qs.forEach(q=>{ const s=S.a[q.id]; if(s&&s.done){done++; pts+=s.score;} });
+  return {done, total:qs.length, pts};
+}
+
+/* ---------- Tabs & navigation ---------- */
+function updateTabs(){
+  refreshMB();
+  const t = $("#tabs"); t.innerHTML="";
+  [...MISSIONS.map(m=>({id:m.id,label:m.short})), {id:"bilan",label:"Bilan"}].forEach((m,i)=>{
+    const b = h("button",{class:"tab",role:"tab",type:"button","aria-selected":String(S.cur===m.id)});
+    if (m.id==="bilan") b.innerHTML = `<span>Bilan</span>`;
+    else { const st=mStats(m.id); b.innerHTML = `<span>${i+1}. ${m.label}</span><span class="n">${st.done}/${st.total}</span>`; if(st.done===st.total) b.classList.add("done"); }
+    b.addEventListener("click",()=>go(m.id));
+    t.appendChild(b);
+  });
+  if (S.cur==="bilan") renderBilan();
+}
+function go(id){
+  S.cur=id; save();
+  document.querySelectorAll(".mission").forEach(s=>s.hidden = s.dataset.id!==id);
+  $("#intro").hidden = id!=="m1";
+  updateTabs();
+  window.scrollTo({top:0, behavior: reduce?"auto":"smooth"});
+  if (id==="m3") startPart(); else stopPart();
+}
+
+/* ---------- Bilans de cours par mission ---------- */
+const BILANS = {
+ m1:`<p>La matière est faite d'<b>entités chimiques</b> (atomes, molécules, ions). Une <b>espèce chimique</b> est un ensemble d'entités identiques : l'eau est l'ensemble des molécules H₂O.</p>
+ <div class="tbl-wrap"><table class="data"><thead><tr><th>Type</th><th>Ce qu'on voit « au microscope »</th><th>Exemples</th></tr></thead><tbody>
+ <tr><td><b>Corps pur simple</b></td><td>une seule espèce, un seul type d'atomes</td><td>Cu, Fe, O₂, N₂</td></tr>
+ <tr><td><b>Corps pur composé</b></td><td>une seule espèce, plusieurs types d'atomes</td><td>H₂O, CO₂, NaCl</td></tr>
+ <tr><td><b>Mélange homogène</b></td><td>plusieurs espèces, une seule phase</td><td>air, eau salée, eau minérale</td></tr>
+ <tr><td><b>Mélange hétérogène</b></td><td>plusieurs espèces, plusieurs phases visibles</td><td>eau + huile, sable + eau</td></tr></tbody></table></div>
+ <ul><li>Un aspect limpide ne prouve pas qu'un liquide est pur : l'eau minérale est un <b>mélange homogène</b>.</li></ul>`,
+ m2:`<ul>
+ <li>Masse volumique : <span class="formula">ρ = m / V</span> (ρ en g·L⁻¹, m en g, V en L). Penser à convertir : 50,0 mL = 0,0500 L.</li>
+ <li>Densité : <span class="formula">d = ρ(corps) / ρ(eau)</span>, <b>sans unité</b>, avec ρ(eau) = 1000 g·L⁻¹.</li>
+ <li>Mesure : tarer la balance avec l'éprouvette vide, puis lire le volume au niveau du ménisque.</li>
+ <li>Valeurs à connaître : eau 1000 g·L⁻¹ ; éthanol 789 g·L⁻¹ (d = 0,79) ; glace 917 g·L⁻¹ ; mercure 13 530 g·L⁻¹ (d ≈ 13,5).</li>
+ <li>d &gt; 1 : plus dense que l'eau. d &lt; 1 : moins dense. Le mercure est environ <b>13,5 fois</b> plus lourd que l'eau à volume égal.</li>
+ <li>Un objet ou un liquide <b>moins dense</b> flotte : l'huile sur l'eau, la glace sur l'eau, le fer sur le mercure.</li>
+ <li>Comparer une masse volumique mesurée aux valeurs des tables permet d'<b>identifier</b> une espèce (le flacon X est de l'éthanol).</li></ul>`,
+ m3:`<ul>
+ <li>État physique : solide si θ &lt; θ<sub>f</sub> ; liquide si θ<sub>f</sub> &lt; θ &lt; θ<sub>éb</sub> ; gaz si θ &gt; θ<sub>éb</sub>.</li>
+ <li>Fusion : solide → liquide (à θ<sub>f</sub>). Solidification : liquide → solide. Ébullition (vaporisation) : liquide → gaz (à θ<sub>éb</sub>). Liquéfaction : gaz → liquide. Sublimation : solide → gaz.</li>
+ <li><b>Diagramme d'état</b> (p en fonction de θ) : trois zones (solide, liquide, gaz) séparées par les courbes de fusion, de vaporisation et de sublimation. Traverser une courbe, c'est changer d'état.</li>
+ <li>Sous la pression atmosphérique, l'eau fond à 0 °C et bout à 100 °C. Les températures de changement d'état <b>dépendent de la pression</b> : en montagne (pression plus faible), l'eau bout à moins de 100 °C ; dans un autocuiseur, au-dessus.</li>
+ <li>Microscopiquement : <b>solide</b> = entités ordonnées qui vibrent sur place ; <b>liquide</b> = entités en contact, désordonnées ; <b>gaz</b> = entités éloignées, très agitées.</li>
+ <li>Un <b>corps pur</b> change d'état à température constante : on voit un <b>palier</b>. Un <b>mélange</b> n'a pas de palier net.</li>
+ <li>L'<b>évaporation</b> se fait en surface, à toute température ; l'<b>ébullition</b> concerne tout le liquide, à θ<sub>éb</sub>.</li>
+ <li>Pour identifier une espèce, il faut <b>plusieurs propriétés concordantes</b> : ρ = 790 g·L⁻¹ et θ<sub>éb</sub> = 79 °C → éthanol.</li></ul>`,
+ m4:`<ul>
+ <li>La <b>solubilité</b> s (en g·L⁻¹) est la masse maximale d'une espèce qu'on peut dissoudre dans 1 L de solution.</li>
+ <li>Masse maximale dissoute dans un volume V : <span class="formula">m<sub>max</sub> = s × V</span> (V en L). Ex. : 360 × 0,100 = 36 g de sel dans 100 mL.</li>
+ <li>Si on ajoute plus que m<sub>max</sub>, la solution est <b>saturée</b> : l'excès reste solide au fond.</li>
+ <li>La solubilité dépend du <b>solvant</b> (acide benzoïque : 2,4 g·L⁻¹ dans l'eau, 43 g·L⁻¹ dans l'éthanol) et de la <b>température</b> (CuSO₄ : 317 g·L⁻¹ à 25 °C, 2 033 g·L⁻¹ à 100 °C).</li>
+ <li>En refroidissant une solution très concentrée, la solubilité baisse : des <b>cristaux</b> apparaissent.</li></ul>`,
+ m5:`<ul>
+ <li>Un <b>test chimique</b> met en évidence une espèce grâce à un <b>réactif</b> : on observe un précipité, une couleur, une flamme…</li>
+ <li>Un <b>précipité</b> est un solide qui apparaît dans une solution.</li>
+ <li>Tests à connaître : soude → précipité <b>bleu</b> (Cu²⁺), <b>vert</b> (Fe²⁺), <b>rouille</b> (Fe³⁺) ; nitrate d'argent → précipité blanc qui noircit (Cl⁻) ; chlorure de baryum → précipité blanc (SO₄²⁻) ; oxalate d'ammonium → précipité blanc (Ca²⁺) ; flamme jaune (Na⁺), rouge (Li⁺), violette (K⁺).</li>
+ <li>Le <b>sulfate de cuivre anhydre</b>, blanc, devient bleu en présence d'<b>eau</b> : c'est le test de l'eau.</li>
+ <li>Seul un test <b>positif</b> permet d'affirmer une présence. Un test négatif ne prouve pas l'absence : l'espèce peut être en trop faible quantité.</li></ul>`,
+ m6:`<ul>
+ <li>La <b>CCM</b> permet de <b>séparer</b> les espèces d'un mélange et de les <b>comparer</b> à des références.</li>
+ <li>Vocabulaire : plaque (phase fixe), <b>ligne de dépôt</b>, <b>éluant</b> (solvant qui monte par capillarité), <b>front de l'éluant</b>, <b>chromatogramme</b>.</li>
+ <li>Interpréter : deux taches à la <b>même hauteur</b> (même plaque, même éluant) = même espèce. Plusieurs taches pour un dépôt = <b>mélange</b>. Une seule tache = espèce probablement pure.</li>
+ <li>Espèces incolores : on <b>révèle</b> les taches (lampe UV, diiode, permanganate). Une méthode de révélation peut ne pas faire apparaître toutes les espèces (ici l'ocimène).</li>
+ <li>La CCM ne permet pas d'identifier une espèce totalement inconnue : il faut une <b>référence</b>.</li>
+ <li>Pour conclure de façon sûre, on <b>croise plusieurs méthodes</b> : seule la lampe UV a démasqué le lavandin vendu comme lavande fine.</li></ul>`,
+};
+function refreshMB(){
+  MISSIONS.forEach((m,i)=>{
+    const slot=document.querySelector(`.mission[data-id="${m.id}"] .mbilan-slot`); if(!slot) return;
+    const st=mStats(m.id); const full = st.done===st.total;
+    const key = full ? "open" : "locked-"+st.done;
+    if (slot.dataset.state===key) return; slot.dataset.state=key;
+    slot.innerHTML = full
+      ? `<div class="mbilan"><h3><span class="eyebrow">Bilan de cours · mission ${i+1}</span>${m.short}</h3>${BILANS[m.id]}<p class="copy-hint">Recopie ce bilan dans ton cahier : c'est ce qu'il faut savoir sur cette notion.</p></div>`
+      : `<div class="mbilan locked">Le <b>bilan de cours</b> de cette mission apparaîtra ici quand tu auras répondu à toutes les questions (${st.done}/${st.total}).</div>`;
+  });
+}
+
+/* ---------- Build mission sections ---------- */
+const root = $("#missions");
+MISSIONS.forEach((m,i)=>{
+  const sec = h("section",{class:"mission","data-id":m.id});
+  sec.innerHTML = `<div class="mhead"><span class="eyebrow">Mission ${i+1} sur 6 · ${m.time}</span><h2>${m.title}</h2><p class="story">${m.story}</p></div>
+  <details class="rappel"><summary>Rappel du cours</summary><div class="rc">${m.rappel}</div></details>
+  <div class="body"></div>
+  <div class="mbilan-slot"></div>
+  <div class="next"><span class="note">Réponds à toutes les questions avant de passer à la suite.</span><button class="btn primary" type="button">${i<5?"Mission suivante →":"Voir mon bilan →"}</button></div>`;
+  sec.querySelector(".next button").addEventListener("click",()=>go(i<5?MISSIONS[i+1].id:"bilan"));
+  root.appendChild(sec);
+});
+const bil = h("section",{class:"mission","data-id":"bilan"}); root.appendChild(bil);
+
+function qList(m, filter){ const box=h("div",{class:"qs"}); Q[m].forEach((q,i)=>{ if(!filter||filter(q)) box.appendChild(renderQ(q,i)); }); return box; }
+const body = id => document.querySelector(`.mission[data-id="${id}"] .body`);
+
+/* ---------- Mission 1 : boîtes moléculaires ---------- */
+function rng(seed){ return ()=>{ seed|=0; seed=seed+0x6D2B79F5|0; let t=Math.imul(seed^seed>>>15,1|seed); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+const COL = {O:"#E0533D",H:"#F5F5F5",N:"#4A78D0",Cu:"#C47838",Na:"#9C6ADE",Cl:"#46A865",C:"#E2BE3E"};
+const at = (x,y,r,e)=>`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r}" fill="${COL[e]}" stroke="#20222b" stroke-opacity=".55" stroke-width=".8"/>`;
+const mol = {
+  H2O:(r)=>at(0,0,4.6,"O")+at(-4.6,3.6,2.7,"H")+at(4.6,3.6,2.7,"H"),
+  O2:()=>at(-3.4,0,4.4,"O")+at(3.4,0,4.4,"O"),
+  N2:()=>at(-3.4,0,4.4,"N")+at(3.4,0,4.4,"N"),
+  Na:()=>at(0,0,4.2,"Na"), Cl:()=>at(0,0,5.4,"Cl"),
+  oil:()=>at(-9,0,3.4,"C")+at(-3,-3,3.4,"C")+at(3,0,3.4,"C")+at(9,-3,3.4,"C"),
+};
+function scatter(list, seed, y0=8, y1=102, minD=14){
+  const R=rng(seed), pts=[]; let out="";
+  list.forEach(k=>{
+    let x,y,tries=0;
+    do { x=12+R()*136; y=y0+R()*(y1-y0); tries++; } while (tries<80 && pts.some(p=>Math.hypot(p[0]-x,p[1]-y)<minD));
+    pts.push([x,y]);
+    out += `<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${Math.round(R()*360)})">${mol[k]()}</g>`;
+  });
+  return out;
+}
+const rep = (k,n)=>Array(n).fill(k);
+function boxSVG(k){
+  let inner="";
+  if (k==="A"){ for(let r=0;r<7;r++) for(let c=0;c<10;c++) inner+=at(13+c*15+(r%2)*7.5-3,10+r*15,6.3,"Cu"); }
+  if (k==="B") inner = scatter(rep("H2O",17),11,8,102,17);
+  if (k==="C") inner = scatter(rep("O2",9),5,8,102,18);
+  if (k==="D") inner = scatter([...rep("N2",9),...rep("O2",3)],7,8,102,17);
+  if (k==="E") inner = scatter([...rep("H2O",13),"Na","Cl","Na","Cl","Na","Cl"],21,8,102,15);
+  if (k==="F") inner = `<rect x="0" y="0" width="160" height="50" fill="#E2BE3E" fill-opacity=".14"/><line x1="0" y1="50" x2="160" y2="50" stroke="currentColor" stroke-dasharray="4 3" stroke-opacity=".6"/>` + scatter(rep("oil",6),3,8,42,22) + scatter(rep("H2O",9),9,60,102,17);
+  return `<svg viewBox="0 0 160 110" role="img" aria-label="Vue microscopique de l'échantillon ${k}" style="color:var(--ink)">${inner}</svg>`;
+}
+(function(){
+  const b = body("m1");
+  const legend = h("div",{class:"legend"}, Object.entries({Cu:"cuivre Cu",O:"oxygène O",H:"hydrogène H",N:"azote N",Na:"ion sodium Na⁺",Cl:"ion chlorure Cl⁻",C:"molécule d'huile"}).map(([k,v])=>`<span><i style="background:${COL[k]}"></i>${v}</span>`).join(""));
+  b.appendChild(legend);
+  const g = h("div",{class:"boxes"});
+  Q.m1.filter(q=>q.box).forEach((q)=>{
+    const card = h("div",{class:"mbox"});
+    card.innerHTML = boxSVG(q.box);
+    card.appendChild(renderQ(q, Q.m1.indexOf(q)));
+    g.appendChild(card);
+  });
+  b.appendChild(g);
+  const rest = h("div",{class:"qs",style:"margin-top:16px;max-width:780px"});
+  Q.m1.filter(q=>!q.box).forEach(q=>rest.appendChild(renderQ(q,Q.m1.indexOf(q))));
+  b.appendChild(rest);
+})();
+
+/* ---------- Mission 2 : balance ---------- */
+const BAL = {on:false, tare:0, liq:null};
+const M_EMPTY=92.4;
+const LIQ = {X:{v:50, m:39.5, col:"#9FC3E6", name:"50,0 mL de liquide X"}, Hg:{v:10, m:135.3, col:"#B9BDC8", name:"10,0 mL de mercure"}};
+const balMass = () => (BAL.on?M_EMPTY:0) + (BAL.on&&BAL.liq?LIQ[BAL.liq].m:0);
+function balSVG(){
+  const disp = (balMass()-BAL.tare).toFixed(1).replace(".",",");
+  const lh = BAL.liq ? LIQ[BAL.liq].v*1.4 : 0;
+  const cyl = BAL.on ? `<g>
+    <rect x="128" y="20" width="44" height="118" rx="3" fill="var(--card)" stroke="var(--ink)" stroke-width="1.5"/>
+    ${lh?`<rect x="129.5" y="${137-lh}" width="41" height="${lh}" fill="${LIQ[BAL.liq].col}" fill-opacity="${BAL.liq==="Hg"?1:.55}"/>`:""}
+    ${Array.from({length:7},(_,i)=>`<line x1="128" x2="${i%2?138:144}" y1="${137-i*14}" y2="${137-i*14}" stroke="var(--ink)" stroke-width="1"/>`).join("")}
+    <text x="178" y="${137-70+4}" font-size="9" fill="var(--muted)">50 mL</text>
+    <text x="178" y="${137-14+4}" font-size="9" fill="var(--muted)">10 mL</text>
+    <rect x="118" y="138" width="64" height="6" rx="2" fill="var(--ink)" fill-opacity=".8"/>
+  </g>`:"";
+  return `<svg viewBox="0 0 300 210" role="img" aria-label="Balance affichant ${disp} grammes">
+    <rect x="70" y="146" width="160" height="14" rx="4" fill="var(--line)"/>
+    <rect x="50" y="160" width="200" height="44" rx="8" fill="var(--ink)" fill-opacity=".88"/>
+    <rect x="110" y="168" width="110" height="28" rx="4" fill="#0E2A1E"/>
+    <text x="212" y="188" font-size="17" text-anchor="end" fill="#7CF0B4" font-weight="600">${disp} g</text>
+    <text x="68" y="186" font-size="9" fill="var(--paper)">TARE</text>
+    ${cyl}</svg>`;
+}
+function drawBal(){ $("#bal").innerHTML = balSVG(); }
+function drawDecant(){
+  const s = S.a.m2f; const show = s && s.done;
+  $("#decant").innerHTML = `<svg viewBox="0 0 260 120" role="img" aria-label="Tube à essai eau et huile">
+    <path d="M40 10 v80 a20 20 0 0 0 40 0 v-80" fill="var(--card)" stroke="var(--ink)" stroke-width="1.5"/>
+    ${show?`<path d="M41.5 40 h37 v50 a18.5 18.5 0 0 1 -37 0z" fill="#9FC3E6" fill-opacity=".6"/><rect x="41.5" y="18" width="37" height="22" fill="#E2BE3E" fill-opacity=".75"/>
+      <text x="92" y="32" font-size="10" fill="var(--ink)">huile (920 g/L)</text><text x="92" y="76" font-size="10" fill="var(--ink)">eau (1000 g/L)</text>`
+     :`<text x="92" y="60" font-size="10" fill="var(--muted)">Réponds à la question</text><text x="92" y="74" font-size="10" fill="var(--muted)">eau + huile pour voir</text>`}
+  </svg>`;
+}
+(function(){
+  const b = body("m2");
+  const g = h("div",{class:"grid2"});
+  const sim = h("div",{class:"sim"});
+  sim.innerHTML = `<h3>Paillasse <small>balance + éprouvette</small></h3>
+    <div id="bal"></div>
+    <div class="controls">
+      <button class="btn" type="button" id="b-on">Poser l'éprouvette vide</button>
+      <button class="btn" type="button" id="b-tare">Tarer (mettre à 0)</button>
+      <button class="btn primary" type="button" id="b-pour">Verser 50,0 mL de X</button>
+      <button class="btn primary" type="button" id="b-hg">Verser 10,0 mL de mercure</button>
+      <button class="btn" type="button" id="b-reset">Tout retirer</button>
+    </div>
+    <p class="log" id="b-log">La balance est vide.</p>
+    <div class="tbl-wrap"><table class="data"><thead><tr><th>Espèce (20 °C)</th><th>ρ (g·L⁻¹)</th></tr></thead>
+    <tbody><tr><td>Eau</td><td>1000</td></tr><tr><td>Éthanol</td><td>789</td></tr><tr><td>Huile de tournesol</td><td>920</td></tr><tr><td>Glycérol</td><td>1261</td></tr><tr><td>Mercure</td><td>à mesurer</td></tr></tbody></table></div>
+    <p class="note">Le mercure est toxique : au lycée, on ne le manipule jamais. Ici, c'est virtuel.</p>
+    <div id="decant"></div>`;
+  g.appendChild(sim); g.appendChild(qList("m2")); b.appendChild(g);
+  const log = t => $("#b-log").textContent = t;
+  $("#b-on",sim).onclick=()=>{ if(BAL.on){log("L'éprouvette est déjà sur la balance.");return;} BAL.on=true; drawBal(); log("Éprouvette vide posée. Note la masse affichée, ou tare."); };
+  $("#b-tare",sim).onclick=()=>{ BAL.tare=balMass(); drawBal(); log("Tare faite : l'affichage revient à 0,0 g."); };
+  const pour = k => { if(!BAL.on){log("Pose d'abord l'éprouvette sur la balance.");return;} if(BAL.liq){log("L'éprouvette n'est pas vide : clique sur « Tout retirer » d'abord.");return;} BAL.liq=k; drawBal(); log(LIQ[k].name+" versés."+(k==="Hg"?" Ménisque bombé : lecture en haut du ménisque.":" Lecture au bas du ménisque.")); };
+  $("#b-pour",sim).onclick=()=>pour("X");
+  $("#b-hg",sim).onclick=()=>pour("Hg");
+  $("#b-reset",sim).onclick=()=>{ BAL.on=false;BAL.tare=0;BAL.liq=null; drawBal(); log("La balance est vide."); };
+  drawBal(); drawDecant();
+})();
+
+/* ---------- Mission 3 : états + courbe de chauffage ---------- */
+const SPECIES = {cyclohexane:[6.5,81,"Cyclohexane"], mercure:[-39,357,"Mercure"], ethanol:[-114,79,"Éthanol"], methane:[-182.5,-161.5,"Méthane"], eau:[0,100,"Eau"], sel:[801,1465,"Sel (NaCl)"]};
+let partState="solide", partRAF=null, parts=[];
+(function(){
+  const b = body("m3");
+  const g = h("div",{class:"grid2"});
+  const sim = h("div",{class:"sim"});
+  sim.innerHTML = `<h3>Thermomètre virtuel <small>états physiques</small></h3>
+    <div class="controls" style="align-items:center"><label for="sp" class="note">Espèce</label><select id="sp">${Object.entries(SPECIES).map(([k,v])=>`<option value="${k}">${v[2]}</option>`).join("")}</select>
+    <span class="note mono" id="spdata"></span></div>
+    <label for="temp" class="note">Température : <b class="mono" id="tval"></b></label>
+    <input type="range" id="temp" min="-200" max="1500" step="1" value="20">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><span class="statebadge" id="stlabel"></span><span class="note">vue microscopique : chaque rond = une molécule</span></div>
+    <canvas id="part" width="440" height="200"></canvas>
+    <h3 style="margin-top:6px">Courbes de chauffage <small>θ en °C</small></h3>
+    <div class="controls"><button class="btn primary" type="button" id="hx">Chauffer le flacon X</button><button class="btn" type="button" id="hy">Chauffer le flacon Y « vodka »</button></div>
+    <div class="tbl-wrap"><div id="curve"></div></div>
+    <p class="note" id="readout">Survole ou touche la courbe pour lire les valeurs.</p>`;
+  g.appendChild(sim); g.appendChild(qList("m3", q=>!q.pd)); b.appendChild(g);
+  const sp=$("#sp",sim), tr=$("#temp",sim);
+  function upd(){
+    const [f,e]=SPECIES[sp.value]; const t=+tr.value;
+    $("#spdata").textContent = `θf = ${fmt(f)} °C · θéb = ${fmt(e)} °C`;
+    $("#tval").textContent = `${t} °C`;
+    const s = t<f?"solide":(t<e?"liquide":"gaz");
+    $("#stlabel").textContent = s[0].toUpperCase()+s.slice(1);
+    if (s!==partState){ partState=s; initParts(); }
+  }
+  sp.onchange=upd; tr.oninput=upd; upd();
+  $("#hx",sim).onclick=()=>animCurve("X"); $("#hy",sim).onclick=()=>animCurve("Y");
+})();
+function initParts(){
+  const W=440,H=200; parts=[];
+  const n=48;
+  for(let i=0;i<n;i++){
+    const gx = 70+ (i%8)*42, gy = 40+Math.floor(i/8)*26;
+    let p={gx,gy,ph:Math.random()*6.28,x:gx,y:gy,vx:0,vy:0};
+    if(partState==="liquid"||partState==="liquide"){ p.x=20+Math.random()*400; p.y=95+Math.random()*95; p.vx=(Math.random()-.5)*1.2; p.vy=(Math.random()-.5)*1.2; }
+    if(partState==="gaz"){ p.x=10+Math.random()*420; p.y=10+Math.random()*180; const a=Math.random()*6.28; p.vx=Math.cos(a)*3; p.vy=Math.sin(a)*3; }
+    parts.push(p);
+  }
+  if (reduce) drawParts(0);
+}
+function drawParts(t){
+  const c=$("#part"); if(!c) return; const x=c.getContext("2d"); const W=c.width,H=c.height;
+  const cs=getComputedStyle(document.documentElement);
+  x.clearRect(0,0,W,H);
+  x.fillStyle=cs.getPropertyValue("--accent").trim();
+  parts.forEach(p=>{
+    if(partState==="solide"){ p.x=p.gx+Math.sin(t/120+p.ph)*1.6; p.y=p.gy+Math.cos(t/140+p.ph)*1.6; }
+    else if(partState==="liquide"){ p.vx+=(Math.random()-.5)*.3; p.vy+=(Math.random()-.5)*.3+.02; p.vx*=.96; p.vy*=.96; p.x+=p.vx; p.y+=p.vy;
+      if(p.x<10){p.x=10;p.vx*=-1} if(p.x>W-10){p.x=W-10;p.vx*=-1} if(p.y<92){p.y=92;p.vy=Math.abs(p.vy)} if(p.y>H-10){p.y=H-10;p.vy*=-1} }
+    else { p.x+=p.vx; p.y+=p.vy; if(p.x<9||p.x>W-9) p.vx*=-1; if(p.y<9||p.y>H-9) p.vy*=-1; }
+    x.beginPath(); x.arc(p.x,p.y,8,0,6.283); x.fill();
+  });
+}
+function loopParts(t){ drawParts(t); partRAF=requestAnimationFrame(loopParts); }
+function startPart(){ if(!parts.length) initParts(); if(reduce){drawParts(0);return;} if(!partRAF) partRAF=requestAnimationFrame(loopParts); }
+function stopPart(){ if(partRAF) cancelAnimationFrame(partRAF); partRAF=null; }
+const CURVE = {
+  X: t => t<3 ? 20+59*(t/3) : t<8 ? 79 : 79+ (t-8)*3.2,
+  Y: t => t<3.4 ? 20+62*(t/3.4) : 82 + 14*(1-Math.exp(-(t-3.4)/3.5)),
+};
+let shown = {};
+const CX=(t)=>44+t*(296/12), CY=(v)=>178-v*1.6;
+function drawCurve(prog){
+  let s=`<svg viewBox="0 0 360 210" id="csvg" style="min-width:300px;width:100%;touch-action:none" role="img" aria-label="Courbes de température en fonction du temps">`;
+  for(let v=0;v<=100;v+=10){ s+=`<line x1="44" x2="340" y1="${CY(v)}" y2="${CY(v)}" stroke="var(--line)" stroke-width="${v%20?0.5:1}"/>`; if(v%20===0) s+=`<text x="38" y="${CY(v)+3}" font-size="9" text-anchor="end" fill="var(--muted)">${v}</text>`; }
+  for(let t=0;t<=12;t+=2){ s+=`<line x1="${CX(t)}" x2="${CX(t)}" y1="18" y2="178" stroke="var(--line)" stroke-width=".5"/><text x="${CX(t)}" y="192" font-size="9" text-anchor="middle" fill="var(--muted)">${t}</text>`; }
+  s+=`<text x="340" y="205" font-size="9" text-anchor="end" fill="var(--muted)">t (min)</text><text x="8" y="12" font-size="9" fill="var(--muted)">θ (°C)</text>`;
+  for(const k of ["X","Y"]){ const p=prog[k]; if(!p) continue; const tm=12*p; let d="";
+    for(let t=0;t<=tm+1e-6;t+=0.05) d+=(d?"L":"M")+CX(t).toFixed(1)+" "+CY(CURVE[k](t)).toFixed(1);
+    s+=`<path d="${d}" fill="none" stroke="${k==="X"?"var(--accent)":"var(--ok)"}" stroke-width="2.4" stroke-linejoin="round"/>`;
+    if(p>=1) s+=`<text x="${CX(12)-2}" y="${CY(CURVE[k](12))-6}" font-size="11" text-anchor="end" font-weight="600" fill="${k==="X"?"var(--accent)":"var(--ok)"}">${k}</text>`; }
+  s+=`<g id="cross" visibility="hidden"><line id="cl" y1="18" y2="178" stroke="var(--ink)" stroke-dasharray="3 3" stroke-width=".8"/></g></svg>`;
+  $("#curve").innerHTML=s;
+  const svg=$("#csvg");
+  svg.addEventListener("pointermove",ev=>{
+    const r=svg.getBoundingClientRect(); const px=(ev.clientX-r.left)/r.width*360; const t=(px-44)/(296/12);
+    if(t<0||t>12) return; $("#cross").setAttribute("visibility","visible"); $("#cl").setAttribute("x1",px); $("#cl").setAttribute("x2",px);
+    const parts=[`t = ${fmt(t.toFixed(1))} min`]; for(const k of ["X","Y"]) if(shown[k]) parts.push(`θ(${k}) = ${fmt(CURVE[k](t).toFixed(0))} °C`);
+    $("#readout").textContent=parts.join(" · ");
+  });
+}
+function animCurve(k){
+  if(reduce){ shown[k]=1; drawCurve(shown); return; }
+  const t0=performance.now();
+  const step=(now)=>{ const p=Math.min(1,(now-t0)/2600); drawCurve({...shown,[k]:p}); if(p<1) requestAnimationFrame(step); else { shown[k]=1; drawCurve(shown);} };
+  requestAnimationFrame(step);
+}
+drawCurve({});
+
+/* ---------- Mission 3 bis : diagramme d'état (p, θ) ---------- */
+function bez(p0,p1,p2,n=240){ const a=[]; for(let i=0;i<=n;i++){ const t=i/n, u=1-t; a.push([u*u*p0[0]+2*t*u*p1[0]+t*t*p2[0], u*u*p0[1]+2*t*u*p1[1]+t*t*p2[1]]); } return a; }
+const VAP = bez([150,230],[300,205],[385,70]);
+const SUB = bez([60,296],[100,290],[150,230]);
+const PATM = 150;
+const yAt=(pts,x)=>{ for(let i=1;i<pts.length;i++){ const [x0,y0]=pts[i-1],[x1,y1]=pts[i]; if(x>=x0&&x<=x1) return y0+(y1-y0)*(x-x0)/((x1-x0)||1); } return null; };
+const xAtY=(pts,y)=>{ for(let i=1;i<pts.length;i++){ const [x0,y0]=pts[i-1],[x1,y1]=pts[i]; if((y<=y0&&y>=y1)||(y>=y0&&y<=y1)) return x0+(x1-x0)*(y-y0)/((y1-y0)||1); } return null; };
+const xF = y => 150 + (140-150)*(230-y)/(230-22);
+const toPath = pts => pts.map((p,i)=>(i?"L":"M")+p[0].toFixed(1)+" "+p[1].toFixed(1)).join("");
+function pdState(x,y){
+  if (y<=230){ if (x<=xF(y)) return "solide"; if (x<150) return "liquide"; if (x>385) return y<70?"super":"gaz"; return y<yAt(VAP,x)?"liquide":"gaz"; }
+  if (x<60) return "solide";
+  if (x<150) return y<yAt(SUB,x)?"solide":"gaz";
+  return "gaz";
+}
+const PDARR = {
+  fusion:[[92,108],[205,108],"fusion","solide → liquide"],
+  solidification:[[205,108],[92,108],"solidification","liquide → solide"],
+  vaporisation:[[190,205],[310,205],"vaporisation (ébullition)","liquide → gaz"],
+  liquefaction:[[310,205],[190,205],"liquéfaction (condensation liquide)","gaz → liquide"],
+  sublimation:[[96,240],[168,292],"sublimation","solide → gaz"],
+  condensation:[[168,292],[96,240],"condensation solide","gaz → solide"],
+};
+let pdPt=[255,110], pdArr=null;
+function pdSVG(){
+  const xf=xF(PATM), xv=xAtY(VAP,PATM);
+  const halo = `paint-order="stroke" stroke="var(--card)" stroke-width="4" stroke-linejoin="round"`;
+  let s=`<svg viewBox="0 0 460 340" id="pdsvg" style="width:100%;min-width:300px;touch-action:none;cursor:crosshair;display:block" role="img" aria-label="Diagramme d'état de l'eau : pression en fonction de la température">
+  <defs><marker id="pdah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="var(--bad)"/></marker>
+  <marker id="pdax" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="var(--ink)"/></marker></defs>
+  <rect x="0" y="0" width="460" height="340" fill="var(--card)"/>
+  <line x1="56" y1="300" x2="446" y2="300" stroke="var(--ink)" stroke-width="1.3" marker-end="url(#pdax)"/>
+  <line x1="56" y1="300" x2="56" y2="10" stroke="var(--ink)" stroke-width="1.3" marker-end="url(#pdax)"/>
+  <text x="46" y="20" font-size="12" text-anchor="end" fill="var(--ink)">p</text>
+  <text x="446" y="326" font-size="11" text-anchor="end" fill="var(--ink)">θ (°C)</text>
+  <line x1="56" y1="${PATM}" x2="440" y2="${PATM}" stroke="var(--muted)" stroke-dasharray="5 4"/>
+  <text x="440" y="${PATM+14}" font-size="9.5" text-anchor="end" fill="var(--muted)" ${halo}>p atmosphérique ≈ 1 bar</text>
+  <line x1="${xf}" y1="${PATM}" x2="${xf}" y2="300" stroke="var(--muted)" stroke-dasharray="3 3"/>
+  <line x1="${xv}" y1="${PATM}" x2="${xv}" y2="300" stroke="var(--muted)" stroke-dasharray="3 3"/>
+  <text x="${xf}" y="314" font-size="10" text-anchor="middle" fill="var(--ink)">0</text>
+  <text x="${xv}" y="314" font-size="10" text-anchor="middle" fill="var(--ink)">100</text>
+  <path d="M150 230 L140 22" fill="none" stroke="var(--accent)" stroke-width="2.6"/>
+  <path d="${toPath(SUB)}" fill="none" stroke="var(--accent)" stroke-width="2.6"/>
+  <path d="${toPath(VAP)}" fill="none" stroke="var(--accent)" stroke-width="2.6"/>
+  <text transform="translate(137 236) rotate(-87)" font-size="9.5" fill="var(--accent)" ${halo}>courbe de fusion</text>
+  <text transform="translate(268 172) rotate(-52)" font-size="9.5" fill="var(--accent)" ${halo}>courbe de vaporisation</text>
+  <text transform="translate(56 254) rotate(-22)" font-size="9.5" fill="var(--accent)" ${halo}>courbe de</text>
+  <text transform="translate(60 266) rotate(-22)" font-size="9.5" fill="var(--accent)" ${halo}>sublimation</text>
+  <circle cx="150" cy="230" r="4" fill="var(--card)" stroke="var(--ink)" stroke-width="1.3"/>
+  <text x="160" y="246" font-size="9" fill="var(--muted)" ${halo}>point triple</text>
+  <circle cx="385" cy="70" r="4" fill="var(--card)" stroke="var(--ink)" stroke-width="1.3"/>
+  <text x="377" y="60" font-size="9" text-anchor="end" fill="var(--muted)" ${halo}>point critique</text>
+  <text x="72" y="60" font-size="15" font-weight="600" fill="var(--ink)">SOLIDE</text>
+  <text x="215" y="62" font-size="15" font-weight="600" fill="var(--ink)">LIQUIDE</text>
+  <text x="330" y="262" font-size="15" font-weight="600" fill="var(--ink)">GAZ</text>`;
+  if (pdArr){ const [a,b2,name,desc]=PDARR[pdArr]; const mx=(a[0]+b2[0])/2, my=(a[1]+b2[1])/2;
+    s+=`<line x1="${a[0]}" y1="${a[1]}" x2="${b2[0]}" y2="${b2[1]}" stroke="var(--bad)" stroke-width="2.4" marker-end="url(#pdah)"/>
+    <text x="${pdArr.startsWith("sub")||pdArr.startsWith("cond")?mx+14:mx}" y="${my-9}" font-size="11" font-weight="600" text-anchor="${pdArr.startsWith("sub")||pdArr.startsWith("cond")?"start":"middle"}" fill="var(--bad)" ${halo}>${name}</text>
+    <text x="${pdArr.startsWith("sub")||pdArr.startsWith("cond")?mx+14:mx}" y="${my+17}" font-size="9.5" text-anchor="${pdArr.startsWith("sub")||pdArr.startsWith("cond")?"start":"middle"}" fill="var(--bad)" ${halo}>${desc}</text>`; }
+  s+=`<circle cx="${pdPt[0]}" cy="${pdPt[1]}" r="7" fill="var(--accent)" stroke="var(--card)" stroke-width="2"/></svg>`;
+  return s;
+}
+function drawPD(){
+  $("#pd").innerHTML = pdSVG();
+  const st = pdState(pdPt[0], pdPt[1]);
+  const lbl = {solide:"Solide", liquide:"Liquide", gaz:"Gaz", super:"Au-delà du point critique (hors programme)"}[st];
+  const rel = pdPt[1] < PATM-3 ? "au-dessus de la pression atmosphérique" : pdPt[1] > PATM+3 ? "en dessous de la pression atmosphérique" : "à la pression atmosphérique";
+  $("#pdread").innerHTML = `État de l'eau : <b>${lbl}</b> · pression ${rel}`;
+}
+(function(){
+  const g2=h("div",{class:"grid2",style:"margin-top:12px"}); const sim=h("div",{class:"sim"});
+  sim.innerHTML=`<h3>Diagramme d'état de l'eau <small>p en fonction de θ</small></h3>
+  <p class="note">Clique ou fais glisser le point pour changer la température et la pression. Les échelles ne sont pas respectées.</p>
+  <div class="tbl-wrap"><div id="pd"></div></div>
+  <p class="log" id="pdread"></p>
+  <p class="note">Montrer un changement d'état :</p>
+  <div class="controls" id="pdbtns">${Object.entries(PDARR).map(([k,v])=>`<button class="btn" type="button" data-k="${k}">${v[2].split(" (")[0]}</button>`).join("")}</div>
+  <p class="note">Le point triple et le point critique sont hors programme : retiens surtout les trois zones et les noms des changements d'état.</p>`;
+  g2.appendChild(sim); g2.appendChild(qList("m3", q=>q.pd)); body("m3").appendChild(g2);
+  sim.querySelectorAll("#pdbtns button").forEach(b=>b.onclick=()=>{ pdArr = pdArr===b.dataset.k ? null : b.dataset.k; sim.querySelectorAll("#pdbtns button").forEach(x=>x.classList.toggle("primary", x.dataset.k===pdArr)); drawPD(); });
+  const box=$("#pd",sim);
+  const setPt=ev=>{ const svg=$("#pdsvg"); const r=svg.getBoundingClientRect();
+    const x=(ev.clientX-r.left)/r.width*460, y=(ev.clientY-r.top)/r.height*340;
+    pdPt=[Math.max(58,Math.min(440,x)), Math.max(14,Math.min(298,y))]; drawPD(); };
+  let drag=false;
+  box.addEventListener("pointerdown",ev=>{ drag=true; setPt(ev); });
+  box.addEventListener("pointermove",ev=>{ if(drag) setPt(ev); });
+  window.addEventListener("pointerup",()=>drag=false);
+  drawPD();
+})();
+
+/* ---------- Mission 4 : bécher ---------- */
+let salt=0;
+function beakerSVG(){
+  const dis=Math.min(salt,36), dep=Math.max(0,salt-36);
+  let pile=""; const R=rng(4); for(let i=0;i<Math.round(dep*1.6);i++){ const x=82+R()*96, y=166-R()*Math.min(22,4+dep*0.9); pile+=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="4" height="4" fill="#FFFFFF" stroke="#6b6f80" stroke-width=".5" transform="rotate(${Math.round(R()*90)} ${x.toFixed(1)} ${y.toFixed(1)})"/>`; }
+  return `<svg viewBox="0 0 300 190" role="img" aria-label="Bécher contenant ${salt} g de sel">
+    <path d="M70 40 v122 a8 8 0 0 0 8 8 h104 a8 8 0 0 0 8 -8 v-122" fill="var(--card)" stroke="var(--ink)" stroke-width="1.6"/>
+    <rect x="71.5" y="70" width="117" height="98" rx="6" fill="#9FC3E6" fill-opacity="${(0.35+dis/36*0.3).toFixed(2)}"/>
+    ${pile}
+    <text x="200" y="74" font-size="9" fill="var(--muted)">100 mL</text>
+    <text x="200" y="120" font-size="10" fill="var(--ink)">dissous : ${dis} g</text>
+    <text x="200" y="136" font-size="10" fill="${dep?'var(--bad)':'var(--ink)'}">au fond : ${dep} g</text>
+    <text x="70" y="26" font-size="11" fill="var(--ink)" font-weight="600">Sel ajouté : ${salt} g</text></svg>`;
+}
+(function(){
+  const b = body("m4"); const g=h("div",{class:"grid2"}); const sim=h("div",{class:"sim"});
+  sim.innerHTML=`<h3>Bécher d'eau à 20 °C <small>NaCl</small></h3><div id="beaker"></div>
+  <div class="controls"><button class="btn primary" type="button" id="s5">Ajouter 5 g de sel et agiter</button><button class="btn" type="button" id="s1">Ajouter 1 g</button><button class="btn" type="button" id="s0">Vider le bécher</button></div>
+  <p class="log" id="s-log">Ajoute du sel et observe à partir de quand il ne se dissout plus.</p>`;
+  g.appendChild(sim); g.appendChild(qList("m4")); b.appendChild(g);
+  const upd=()=>{ $("#beaker").innerHTML=beakerSVG(); $("#s-log").textContent = salt>36 ? `Solution saturée : ${salt-36} g de sel restent au fond malgré l'agitation.` : salt===36 ? "Tout est dissous… mais un seul grain de plus resterait au fond." : salt ? "Tout le sel se dissout : la solution est limpide et homogène." : "Ajoute du sel et observe à partir de quand il ne se dissout plus."; };
+  $("#s5",sim).onclick=()=>{ if(salt<60){salt+=5;upd();} }; $("#s1",sim).onclick=()=>{ if(salt<60){salt+=1;upd();} }; $("#s0",sim).onclick=()=>{salt=0;upd();};
+  upd();
+})();
+
+/* ---------- Mission 5 : tests ---------- */
+const TESTS = [
+  {k:"ag", name:"Nitrate d'argent", res:"Aucun précipité. La solution reste bleu clair.", ppt:null},
+  {k:"so", name:"Soude", res:"Précipité bleu !", ppt:"#3E7FD6"},
+  {k:"ba", name:"Chlorure de baryum", res:"Précipité blanc !", ppt:"#F4F4F4"},
+  {k:"ox", name:"Oxalate d'ammonium", res:"Aucun précipité.", ppt:null},
+  {k:"fl", name:"Test de flamme", res:"Flamme verte : cette couleur n'est pas dans le tableau (ni Na⁺, ni Li⁺, ni K⁺).", ppt:null, flame:true},
+];
+const TDONE = {};
+function tubesSVG(){
+  let s=`<svg viewBox="0 0 330 200" role="img" aria-label="Portoir de tubes à essai">`;
+  TESTS.forEach((t,i)=>{
+    const x=24+i*62; const d=TDONE[t.k];
+    if(t.flame){
+      s+=`<rect x="${x+6}" y="150" width="16" height="34" fill="var(--muted)"/><rect x="${x-4}" y="184" width="36" height="6" rx="2" fill="var(--muted)"/>`;
+      if(d) s+=`<path d="M${x+14} 70 C ${x+30} 100, ${x+26} 140, ${x+14} 148 C ${x+2} 140, ${x-2} 100, ${x+14} 70z" fill="#3FBF6A" fill-opacity=".85"/>`;
+      else s+=`<path d="M${x+14} 118 C ${x+22} 130, ${x+20} 144, ${x+14} 148 C ${x+8} 144, ${x+6} 130, ${x+14} 118z" fill="#4A78D0" fill-opacity=".6"/>`;
+    } else {
+      s+=`<path d="M${x} 30 v120 a14 14 0 0 0 28 0 v-120" fill="var(--card)" stroke="var(--ink)" stroke-width="1.4"/>`;
+      s+=`<path d="M${x+1.4} 90 h25.2 v60 a12.6 12.6 0 0 1 -25.2 0z" fill="#6FA8E0" fill-opacity=".45"/>`;
+      if(d && t.ppt){ const R=rng(i+9); for(let j=0;j<26;j++){ const px=x+5+R()*18, py=148+R()*12-(j>18?6:0); s+=`<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="2.3" fill="${t.ppt}" stroke="#20222b" stroke-opacity=".4" stroke-width=".5"/>`; } }
+    }
+    s+=`<text x="${x+14}" y="18" font-size="10" text-anchor="middle" fill="var(--ink)" font-weight="600">${i+1}</text>`;
+  });
+  return s+"</svg>";
+}
+(function(){
+  const b=body("m5"); const g=h("div",{class:"grid2"}); const sim=h("div",{class:"sim"});
+  sim.innerHTML=`<h3>Portoir de tubes <small>solution de la poudre</small></h3>
+  <div class="tbl-wrap"><div id="tubes"></div></div>
+  <div class="controls" id="tbtns">${TESTS.map((t,i)=>`<button class="btn" type="button" data-k="${t.k}">${i+1}. ${t.name}</button>`).join("")}</div>
+  <div class="log" id="t-log">Poudre + eau distillée : la poudre bleuit et donne une solution bleu clair. Choisis un réactif.</div>
+  <details class="rappel"><summary>Tableau des tests (données)</summary><div class="rc tbl-wrap"><table class="data"><thead><tr><th>Ion</th><th>Réactif</th><th>Observation</th></tr></thead><tbody>
+  <tr><td>Chlorure Cl⁻</td><td>Nitrate d'argent</td><td>Précipité blanc qui noircit à la lumière</td></tr>
+  <tr><td>Cuivre II Cu²⁺</td><td>Soude</td><td>Précipité bleu</td></tr>
+  <tr><td>Calcium Ca²⁺</td><td>Oxalate d'ammonium</td><td>Précipité blanc</td></tr>
+  <tr><td>Fer II Fe²⁺</td><td>Soude</td><td>Précipité vert</td></tr>
+  <tr><td>Fer III Fe³⁺</td><td>Soude</td><td>Précipité rouille</td></tr>
+  <tr><td>Sulfate SO₄²⁻</td><td>Chlorure de baryum</td><td>Précipité blanc</td></tr>
+  <tr><td>Sodium Na⁺</td><td>Flamme</td><td>Flamme jaune</td></tr>
+  <tr><td>Lithium Li⁺</td><td>Flamme</td><td>Flamme rouge</td></tr>
+  <tr><td>Potassium K⁺</td><td>Flamme</td><td>Flamme violette</td></tr></tbody></table></div></details>`;
+  g.appendChild(sim); g.appendChild(qList("m5")); b.appendChild(g);
+  const upd=()=>$("#tubes").innerHTML=tubesSVG();
+  sim.querySelectorAll("#tbtns button").forEach(btn=>btn.onclick=()=>{ const t=TESTS.find(x=>x.k===btn.dataset.k); TDONE[t.k]=1; upd();
+    $("#t-log").innerHTML=TESTS.filter(x=>TDONE[x.k]).map(x=>`<div>${TESTS.indexOf(x)+1}. ${x.name} → ${x.res}</div>`).join(""); });
+  upd();
+})();
+
+/* ---------- Mission 6 : CCM ---------- */
+const RF = {acet:.48, lina:.28, cine:.68, ocim:.82};
+const DEP = [
+  {n:1, chem:[["acet",1]], uv:[]},
+  {n:2, chem:[["lina",1]], uv:[]},
+  {n:3, chem:[["cine",1]], uv:[]},
+  {n:4, chem:[], uv:[["ocim",1]]},
+  {n:5, chem:[["lina",1],["acet",1],["cine",.35]], uv:[["ocim",1]]},
+  {n:6, chem:[["lina",1],["acet",1],["cine",.35]], uv:[["ocim",.3]]},
+  {n:7, chem:[["lina",1],["acet",1],["cine",.35]], uv:[["ocim",.25]]},
+];
+let ccm={elu:0, mode:"none"};
+function ccmSVG(){
+  const X0=30, W=280, Y0=230, top=30; const base=Y0-24, frontMax=top+16;
+  const front = base - (base-frontMax)*ccm.elu;
+  const uv = ccm.mode==="uv";
+  let s=`<svg viewBox="0 0 340 270" role="img" aria-label="Plaque de chromatographie">`;
+  s+=`<rect x="${X0}" y="${top}" width="${W}" height="${Y0-top}" rx="3" fill="${uv?"var(--plate-uv)":"var(--plate)"}" stroke="var(--ink)" stroke-width="1.2"/>`;
+  if(ccm.elu>0) s+=`<rect x="${X0+1}" y="${front}" width="${W-2}" height="${Y0-front-1}" fill="#7FA6D9" fill-opacity="${uv?0:.12}"/><line x1="${X0}" x2="${X0+W}" y1="${front}" y2="${front}" stroke="${uv?'#cfd3ff':'#4A6FA5'}" stroke-dasharray="${ccm.elu>=1?'0':'4 3'}" stroke-width="1.2"/>`;
+  if(ccm.elu>=1) s+=`<text x="${X0+W+4}" y="${front+3}" font-size="9" fill="var(--muted)">front</text>`;
+  s+=`<line x1="${X0}" x2="${X0+W}" y1="${base}" y2="${base}" stroke="#555" stroke-width=".8"/><text x="${X0+W+4}" y="${base+3}" font-size="9" fill="var(--muted)">dépôts</text>`;
+  DEP.forEach((d,i)=>{
+    const x = X0+22+i*39.5;
+    s+=`<line x1="${x}" x2="${x}" y1="${base-3}" y2="${base+3}" stroke="#333" stroke-width="1"/><text x="${x}" y="${Y0+16}" font-size="11" text-anchor="middle" fill="var(--ink)" font-weight="600">${d.n}</text>`;
+    if(ccm.elu<1){ s+=`<circle cx="${x}" cy="${base}" r="2.6" fill="#999"/>`; return; }
+    const list = ccm.mode==="chem"?d.chem:ccm.mode==="uv"?d.uv:[];
+    list.forEach(([k,a])=>{ const y=base-(base-frontMax)*RF[k]; s+=`<ellipse cx="${x}" cy="${y}" rx="8" ry="6" fill="${uv?'#0b0b18':'var(--spot)'}" fill-opacity="${a}"/>`; });
+  });
+  if(uv && ccm.elu>=1) s+=`<text x="${X0+6}" y="${top+12}" font-size="9" fill="#cfd3ff">lampe UV</text>`;
+  return s+"</svg>";
+}
+(function(){
+  const b=body("m6"); const g=h("div",{class:"grid2"}); const sim=h("div",{class:"sim"});
+  sim.innerHTML=`<h3>Cuve à chromatographie <small>CCM</small></h3>
+  <div class="tbl-wrap"><div id="ccm"></div></div>
+  <div class="controls"><button class="btn primary" type="button" id="c-elu">1. Lancer l'élution</button><button class="btn" type="button" id="c-chem" disabled>2. Révélation chimique</button><button class="btn" type="button" id="c-uv" disabled>3. Lampe UV</button></div>
+  <p class="log" id="c-log">Dépôts : 1 acétate de linalyle · 2 linalol · 3 cinéole · 4 ocimène · 5 HE de lavande fine · 6 HE de lavandin · 7 flacon saisi « lavande fine ».</p>
+  <div class="tbl-wrap"><table class="data"><thead><tr><th>% massique</th><th>Lavande fine</th><th>Lavandin</th></tr></thead><tbody>
+  <tr><td>Acétate de linalyle</td><td>36 %</td><td>31 %</td></tr><tr><td>Linalol</td><td>25 %</td><td>32 %</td></tr>
+  <tr><td>Cinéole</td><td>&lt; 1 %</td><td>4 %</td></tr><tr><td>Ocimène</td><td>16 %</td><td>&lt; 1 %</td></tr></tbody></table></div>`;
+  g.appendChild(sim); g.appendChild(qList("m6")); b.appendChild(g);
+  const upd=()=>$("#ccm").innerHTML=ccmSVG();
+  const elu=$("#c-elu",sim), ch=$("#c-chem",sim), uv=$("#c-uv",sim), log=$("#c-log",sim);
+  elu.onclick=()=>{ if(ccm.elu>=1) return; elu.disabled=true; log.textContent="L'éluant monte par capillarité…";
+    const done=()=>{ ccm.elu=1; upd(); ch.disabled=false; uv.disabled=false; log.textContent="Élution terminée. Les espèces sont incolores : rien n'est visible. Il faut révéler la plaque."; };
+    if(reduce){ done(); return; }
+    const t0=performance.now(); const step=now=>{ ccm.elu=Math.min(1,(now-t0)/2500); upd(); if(ccm.elu<1) requestAnimationFrame(step); else done(); }; requestAnimationFrame(step); };
+  ch.onclick=()=>{ ccm.mode="chem"; upd(); log.textContent="Révélation chimique : des taches apparaissent. Compare les hauteurs."; };
+  uv.onclick=()=>{ ccm.mode="uv"; upd(); log.textContent="Sous la lampe UV, seules certaines espèces apparaissent. Compare 5, 6 et 7."; };
+  upd();
+})();
+
+/* ---------- Bilan ---------- */
+function renderBilan(){
+  let tp=0, tt=0;
+  const rows = MISSIONS.map((m,i)=>{ const s=mStats(m.id); tp+=s.pts; tt+=s.total; const pct=s.total?s.pts/s.total:0;
+    const pill = s.done<s.total ? `<span class="pill todo">${s.done}/${s.total} faites</span>` : pct>=0.6?`<span class="pill ok">acquis</span>`:`<span class="pill ko">à revoir</span>`;
+    return `<tr><td>${i+1}. ${m.short}</td><td><div class="meter"><i style="width:${Math.round(pct*100)}%"></i></div></td><td>${pill}</td></tr>`; }).join("");
+  const esc = t => String(t||"").replace(/&/g,"&amp;").replace(/</g,"&lt;");
+  const now = new Date().toLocaleString("fr-FR",{dateStyle:"short",timeStyle:"short"});
+  bil.innerHTML = `<div class="bilan"><div class="mhead"><span class="eyebrow">Fin du stage</span><h2>Ton bilan</h2>
+    <p class="story">Écris ton nom, puis explique <b>avec tes mots</b> ce que tu as compris pendant ce stage. Ce n'est pas noté : sois honnête, y compris sur ce qui reste flou. Ensuite, clique sur « Copier mon texte » et colle-le là où ton professeur te l'a demandé (ou fais une capture d'écran du cadre pointillé).</p></div>
+    <div class="capture">
+      <div class="idrow">
+        <label for="id-nom">Nom<input id="id-nom" value="${(S.id.nom||"").replace(/"/g,"&quot;")}"></label>
+        <label for="id-prenom">Prénom<input id="id-prenom" value="${(S.id.prenom||"").replace(/"/g,"&quot;")}"></label>
+        <label for="id-classe">Classe<input id="id-classe" value="${(S.id.classe||"").replace(/"/g,"&quot;")}"></label>
+      </div>
+      <div class="note mono">Labo des fraudes · ch. 1 · ${now}</div>
+      <div class="write">
+        <label for="texte"><b>Ce que j'ai compris</b> · au moins 100 mots. Tu peux t'aider de ces questions :</label>
+        <ul>
+          <li>Comment reconnaît-on un corps pur d'un mélange (au microscope, puis avec une courbe de chauffage) ?</li>
+          <li>Comment as-tu prouvé que le flacon X était de l'éthanol ? Pourquoi faut-il plusieurs propriétés ?</li>
+          <li>Qu'as-tu retenu de la comparaison entre le mercure et l'eau ?</li>
+          <li>Que veut dire « solution saturée » ?</li>
+          <li>Comment les tests chimiques et la CCM ont-ils démasqué les fraudes ?</li>
+          <li>Qu'est-ce qui reste difficile pour toi ?</li>
+        </ul>
+        <textarea id="texte" placeholder="Pendant ce stage, j'ai compris que…">${esc(S.id.texte)}</textarea>
+        <div class="controls" style="align-items:center"><span class="note mono" id="wc"></span><button class="btn primary" type="button" id="copy">Copier mon texte</button><span class="note" id="copied" role="status"></span></div>
+      </div>
+      <div class="tbl-wrap"><table class="data"><thead><tr><th>Mission</th><th>Réussite</th><th>Statut</th></tr></thead><tbody>${rows}</tbody></table></div>
+    </div>
+    <div class="next"><span class="note">Les missions « à revoir » : relis le rappel du cours et les corrections affichées sous chaque question. Tes réponses sont définitives.</span></div></div>`;
+  ["nom","prenom","classe"].forEach(k=>$("#id-"+k).addEventListener("input",e=>{ S.id[k]=e.target.value; save(); }));
+  const ta=$("#texte"), wc=$("#wc");
+  const grow=()=>{ ta.style.height="auto"; ta.style.height=ta.scrollHeight+"px"; };
+  const count=()=>{ const n=(ta.value.trim().match(/\S+/g)||[]).length; wc.textContent=n+" mot"+(n>1?"s":"")+(n<100?" / 100":" ✔"); wc.classList.toggle("wc-ok",n>=100); };
+  ta.addEventListener("input",()=>{ S.id.texte=ta.value; save(); grow(); count(); });
+  grow(); count();
+  $("#copy").onclick=async()=>{
+    const txt=`${S.id.prenom||""} ${S.id.nom||""} · ${S.id.classe||""}\nLabo des fraudes · ce que j'ai compris\n\n${ta.value.trim()}`;
+    const msg=$("#copied");
+    try { await navigator.clipboard.writeText(txt); msg.textContent="Texte copié : colle-le avec Ctrl+V (ou Cmd+V)."; }
+    catch(e){ ta.focus(); ta.select(); let ok=false; try{ ok=document.execCommand("copy"); }catch(_){} msg.textContent= ok ? "Texte copié : colle-le avec Ctrl+V (ou Cmd+V)." : "Le texte est sélectionné : copie-le avec Ctrl+C (ou Cmd+C)."; }
+  };
+}
+
+go(S.cur || "m1");
+})();
+</script>
+</body>
+</html>
